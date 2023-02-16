@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">CS 408 Lab 3</string>
+    <string name="calcStart">0</string>>
+    <string name="btnEquals">=</string>string>
+    <string name="btnPlus">+</string>string>
+    <string name="btnMinus">-</string>string>
+    <string name="btnMultiply">X</string>string>
+    <string name="btnDivide">÷</string>string>
+    <string name="btnPercent">%</string>string>
+    <string name="btnClear">C</string>string>
+    <string name="btnSrt">√</string>string>
+    <string name="btnDecimal">.</string>string>
+    <string name="btnSignSwitch">±</string>string>
+    <string name="btnOne">1</string>string>
+    <string name="btnTwo">2</string>string>
+    <string name="btnThree">3</string>string>
+    <string name="btnFour">4</string>string>
+    <string name="btnFive">5</string>string>
+    <string name="btnSix">6</string>string>
+    <string name="btnSeven">7</string>string>
+    <string name="btnEight">8</string>string>
+    <string name="btnNine">9</string>string>
+    <string name="btnZero">0</string>string>
+</resources>
