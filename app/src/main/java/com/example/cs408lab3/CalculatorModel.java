@@ -26,7 +26,7 @@ public class CalculatorModel extends AbstractModel{
 
     }
 
-    public void init(){
+    public void calcStart(){
         state = CalculatorState.CLEAR;
         lhs = rhs = null;
         operator = null;
@@ -40,7 +40,7 @@ public class CalculatorModel extends AbstractModel{
     public void setKey(Character key) {
         if (state.equals(CalculatorState.CLEAR)){
             changeState(CalculatorState.LHS);
-
+            setScreen("0");
         }
 
         if (state.equals(CalculatorState.OP_SELECTED)) {
@@ -96,9 +96,9 @@ public class CalculatorModel extends AbstractModel{
 
     }
 
-    private void ChangeState(CalculatorState newState) {
+    private void changeState(CalculatorState newState) {
         if (newState.equals(CalculatorState.CLEAR)){
-            init();
+            calcStart();
 
         }
         else {
@@ -142,6 +142,9 @@ public class CalculatorModel extends AbstractModel{
                     result = lhs.multiply(rhs);
                     break;
                 case DIVIDE:
+                    if (lhs.equals("0") && rhs.equals("0")){
+                        break;
+                    }
                     result = lhs.divide(rhs);
                     break;
 

@@ -1,11 +1,13 @@
 package com.example.cs408lab3;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.cs408lab3.databinding.ActivityMainBinding;
 
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
 
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
         View view = binding.getRoot();
         setContentView(view);
 
@@ -37,18 +38,18 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
 
         //Register Activity View and Model with Controller.
 
-        controller.addview(this);
+        controller.addView(this);
         controller.addModel(model);
 
         //Initialize Model to Default Values.
 
-        model.init();
+        model.calcStart();
 
         CalculatorClickHandler click = new CalculatorClickHandler();
-        ContraintLayout layout = binding.layout;
+        ConstraintLayout layout = binding.layout;
 
         for (int i = 0; i < layout.getChildCount(); ++i) {
-            View child = layout.getChild(i);
+            View child = layout.getChildAt(i);
             if(child instanceof Button) {
                 child.setOnClickListener(click);
             }
@@ -56,15 +57,7 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
 
     }
 
-    class CalculatorClickHandler implements View.OnClickListener {
-        @Override
-        public void OnClick(View v) {
-            String tag = ((Button) v).getTag().toString();
-            controller.processInput(tag);
 
-        }
-
-    }
 
     public void modelPropertyChange(final PropertyChangeEvent evt){
         String propertyName = evt.getPropertyName();
@@ -73,12 +66,24 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
         Log.i(TAG, "New " + propertyName + " Value from Model: " + propertyValue);
 
         if( propertyName.equals(CalculatorController.SCREEN_PROPERTY)) {
-            String oldPropertyValue = binding.calcScreen.getText().toString();
+            String oldPropertyValue = binding.textView.getText().toString();
 
             if ( !oldPropertyValue.equals(propertyValue)) {
-                binding.calcScreen.setText(propertyValue);
+                binding.textView.setText(propertyValue);
 
             }
+
+        }
+
+    }
+
+    class CalculatorClickHandler implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            String tag = ((Button) v).getTag().toString();
+            controller.processInput(tag);
+
+
 
         }
 
