@@ -86,8 +86,6 @@ public class CalculatorModel extends AbstractModel{
                     //Load lhs into percent.
                     BigDecimal percent = null;
                     percent.equals(lhs);
-
-                    //Create divisor big decimal of 100.
                     BigDecimal divisor = new BigDecimal(100);
 
                     //Make rhs divided by 100.
@@ -95,9 +93,12 @@ public class CalculatorModel extends AbstractModel{
 
                     //Multiply the rhs by the lhs to get the percent.
                     percent.multiply(rhs);
-
+                    setScreen(percent.toString());
+                    changeState(CalculatorState.OP_SELECTED);
+                    operator = function;
 
                     break;
+
 
             }
         }
