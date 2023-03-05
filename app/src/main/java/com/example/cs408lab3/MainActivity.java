@@ -57,6 +57,17 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
 
     }
 
+    class CalculatorClickHandler implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            String tag = ((Button) v).getTag().toString();
+            controller.processInput(tag);
+
+
+
+        }
+
+    }
 
 
     public void modelPropertyChange(final PropertyChangeEvent evt){
@@ -77,15 +88,5 @@ public class MainActivity extends AppCompatActivity implements AbstractView{
 
     }
 
-    class CalculatorClickHandler implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            String tag = ((Button) v).getTag().toString();
-            controller.processInput(tag);
 
-
-
-        }
-
-    }
 }

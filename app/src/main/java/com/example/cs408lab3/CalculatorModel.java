@@ -1,8 +1,11 @@
 package com.example.cs408lab3;
 
+import static com.example.cs408lab3.CalculatorFunction.CLEAR;
+
 import android.util.Log;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 public class CalculatorModel extends AbstractModel{
 
@@ -71,9 +74,29 @@ public class CalculatorModel extends AbstractModel{
 
         try {
             switch (function) {
-                case ADD: case SUBTRACT: case MULTIPLY: case DIVIDE:
+                case ADD: case SUBTRACT: case MULTIPLY: case DIVIDE: case EQUALS: case SQRT:
                     changeState(CalculatorState.OP_SELECTED);
                     operator = function;
+                    break;
+
+                case CLEAR:
+                    calcStart();
+
+                case PERCENT:
+                    //Load lhs into percent.
+                    BigDecimal percent = null;
+                    percent.equals(lhs);
+
+                    //Create divisor big decimal of 100.
+                    BigDecimal divisor = new BigDecimal(100);
+
+                    //Make rhs divided by 100.
+                    rhs.divide(divisor);
+
+                    //Multiply the rhs by the lhs to get the percent.
+                    percent.multiply(rhs);
+
+
                     break;
 
             }
@@ -127,7 +150,6 @@ public class CalculatorModel extends AbstractModel{
         }
         if (rhs == null) {
             rhs = lhs;
-
         }
 
         if (operator != null) {
@@ -142,10 +164,13 @@ public class CalculatorModel extends AbstractModel{
                     result = lhs.multiply(rhs);
                     break;
                 case DIVIDE:
-                    if (lhs.equals("0") && rhs.equals("0")){
-                        break;
-                    }
                     result = lhs.divide(rhs);
+                    break;
+                case SQRT:
+
+                    break;
+                case SIGN:
+                    result = lhs.negate();
                     break;
 
             }

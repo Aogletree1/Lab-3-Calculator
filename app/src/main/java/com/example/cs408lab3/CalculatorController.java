@@ -22,10 +22,7 @@ public class CalculatorController extends AbstractController
 
     }
 
-    public void changeKey(Character newText) {
-        setModelProperty(KEY_PROPERTY, newText);
 
-    }
 
     public void changeFunction(CalculatorFunction newFunction) {
         setModelProperty(FUNCTION_PROPERTY, newFunction);
@@ -38,7 +35,7 @@ public class CalculatorController extends AbstractController
         switch (tag) {
             case "btnPlus": case "btnClear": case "btnDivide":
             case "btnEquals": case "btnMultiply": case "btnPercent":
-            case "btnSign": case "btnSrt": case "btnMinus":
+            case "btnSignSwitch": case "btnSrt": case "btnMinus":
 
                 changeFunction(functionMap.get(tag));
                 break;
@@ -49,6 +46,12 @@ public class CalculatorController extends AbstractController
                 break;
 
         }
+
+    }
+
+    public void changeKey(Character newText) {
+
+        setModelProperty(KEY_PROPERTY, newText);
 
     }
 
@@ -75,12 +78,11 @@ public class CalculatorController extends AbstractController
         HashMap<String, CalculatorFunction> map = new HashMap<>();
 
         map.put("btnPlus", CalculatorFunction.ADD);
-        map.put("btnClear", CalculatorFunction.CLEAR);
         map.put("btnDivide", CalculatorFunction.DIVIDE);
         map.put("btnEquals", CalculatorFunction.EQUALS);
         map.put("btnMultiply", CalculatorFunction.MULTIPLY);
         map.put("btnPercent", CalculatorFunction.PERCENT);
-        map.put("btnSign", CalculatorFunction.SIGN);
+        map.put("btnSignSwitch", CalculatorFunction.SIGN);
         map.put("btnClear", CalculatorFunction.CLEAR);
         map.put("btnSrt", CalculatorFunction.SQRT);
         map.put("btnMinus", CalculatorFunction.SUBTRACT);
