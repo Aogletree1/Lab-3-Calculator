@@ -1,6 +1,7 @@
 package com.example.cs408lab3;
 
 import static com.example.cs408lab3.CalculatorFunction.CLEAR;
+import static com.example.cs408lab3.CalculatorFunction.SIGN;
 
 import android.util.Log;
 
@@ -13,8 +14,10 @@ public class CalculatorModel extends AbstractModel{
 
     private final String START_VALUE = "0";
     private final Character DECIMAL_POINT = '.';
+    private final Character SIGN_SWITCH = '±';
 
     private boolean hasDecimalPoint = false;
+    private boolean hasSignSwitch = false;
 
     private StringBuilder screen;
 
@@ -58,7 +61,19 @@ public class CalculatorModel extends AbstractModel{
                     appendDigit(key);
                     hasDecimalPoint = true;
                 }
+
+
+                if (key == SIGN_SWITCH){
+                    if(!hasSignSwitch){
+                    lhs.negate();
+                    rhs.negate();
+                    appendSign(lhs);
+                    hasSignSwitch = true;
+                }}
+
             }
+
+
 
             else {
                 if (screen.toString().equals(START_VALUE)) {
@@ -75,29 +90,13 @@ public class CalculatorModel extends AbstractModel{
         try {
             switch (function) {
                 case ADD: case SUBTRACT: case MULTIPLY: case DIVIDE: case EQUALS: case SQRT:
+                case PERCENT:
                     changeState(CalculatorState.OP_SELECTED);
                     operator = function;
                     break;
 
                 case CLEAR:
                     calcStart();
-
-                case PERCENT:
-                    //Load lhs into percent.
-                    BigDecimal percent = null;
-                    percent.equals(lhs);
-                    BigDecimal divisor = new BigDecimal(100);
-
-                    //Make rhs divided by 100.
-                    rhs.divide(divisor);
-
-                    //Multiply the rhs by the lhs to get the percent.
-                    percent.multiply(rhs);
-                    setScreen(percent.toString());
-                    changeState(CalculatorState.OP_SELECTED);
-                    operator = function;
-
-                    break;
 
 
             }
@@ -168,10 +167,24 @@ public class CalculatorModel extends AbstractModel{
                     result = lhs.divide(rhs);
                     break;
                 case SQRT:
-
+                    lhs.doubleValue();
+                    result = lhs.pow(1/2);
                     break;
                 case SIGN:
                     result = lhs.negate();
+                    break;
+                case PERCENT:
+                    //Load lhs into percent.
+                    BigDecimal percent = null;
+                    percent = lhs;
+                    BigDecimal divisor = new BigDecimal(100);
+
+                    //Make rhs divided by 100.
+                    rhs.divide(divisor);
+
+                    //Multiply the rhs by the lhs to get the percent.
+                    percent.multiply(rhs);
+                    result = percent;
                     break;
 
             }
@@ -191,6 +204,18 @@ public class CalculatorModel extends AbstractModel{
         String newText = screen.toString();
 
         Log.i(TAG, "Screen Change: " + digit);
+
+        firePropertyChange(CalculatorController.SCREEN_PROPERTY, oldText, newText);
+
+    }
+
+    public void appendSign(BigDecimal r) {
+
+        String oldText = screen.toString();
+        screen.append(r);
+        String newText = screen.toString();
+
+        Log.i(TAG, "Screen Change: " + r);
 
         firePropertyChange(CalculatorController.SCREEN_PROPERTY, oldText, newText);
 

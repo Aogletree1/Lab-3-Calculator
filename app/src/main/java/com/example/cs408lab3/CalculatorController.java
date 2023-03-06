@@ -34,8 +34,8 @@ public class CalculatorController extends AbstractController
     public void processInput(String tag) {
         switch (tag) {
             case "btnPlus": case "btnClear": case "btnDivide":
-            case "btnEquals": case "btnMultiply": case "btnPercent":
-            case "btnSignSwitch": case "btnSrt": case "btnMinus":
+            case "btnEquals": case "btnMultiply": case "btnMinus":
+            case "btnPercent": case "btnSrt":
 
                 changeFunction(functionMap.get(tag));
                 break;
@@ -69,6 +69,7 @@ public class CalculatorController extends AbstractController
         map.put("btnEight", '8');
         map.put("btnNine", '9');
         map.put("btnDecimal", '.');
+        map.put("btnSignSwitch", '-');
 
         return map;
 
