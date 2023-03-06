@@ -63,14 +63,6 @@ public class CalculatorModel extends AbstractModel{
                 }
 
 
-                if (key == SIGN_SWITCH){
-                    if(!hasSignSwitch){
-                    lhs.negate();
-                    rhs.negate();
-                    appendSign(lhs);
-                    hasSignSwitch = true;
-                }}
-
             }
 
 
@@ -84,7 +76,7 @@ public class CalculatorModel extends AbstractModel{
         }
     }
 
-    public void setFunction(CalculatorFunction function) {
+    public void setFunction (CalculatorFunction function) {
         Log.i(TAG, "Function Change: " + function.toString());
 
         try {
@@ -97,6 +89,11 @@ public class CalculatorModel extends AbstractModel{
 
                 case CLEAR:
                     calcStart();
+
+                case SIGN:
+                    changeStateSign(CalculatorState.OP_SELECTED);
+                    operator = function;
+                    break;
 
 
             }
@@ -143,6 +140,28 @@ public class CalculatorModel extends AbstractModel{
         state = newState;
     }
 
+    private void changeStateSign(CalculatorState newState) {
+        if (newState.equals(CalculatorState.CLEAR)){
+
+
+            switch (state) {
+                case LHS:
+                    lhs = new BigDecimal(screen.toString());
+                    evaluate();
+                    break;
+
+                case RHS:
+                    rhs = new BigDecimal(screen.toString());
+                    evaluate();
+                    break;
+
+            }}
+
+
+
+        state = newState;
+    }
+
     private void evaluate() {
         BigDecimal result = new BigDecimal("0");
         if (lhs == null) {
@@ -171,7 +190,11 @@ public class CalculatorModel extends AbstractModel{
                     result = lhs.pow(1/2);
                     break;
                 case SIGN:
-                    result = lhs.negate();
+                    if (state.equals(CalculatorState.LHS)){
+                    result = lhs.negate();}
+                    else if (state.equals(CalculatorState.RHS)) {
+                    result = rhs.negate();
+                    }
                     break;
                 case PERCENT:
                     //Load lhs into percent.
