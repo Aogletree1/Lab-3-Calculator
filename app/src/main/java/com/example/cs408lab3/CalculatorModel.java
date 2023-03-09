@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.lang.Math;
 
 public class CalculatorModel extends AbstractModel{
 
@@ -81,20 +82,27 @@ public class CalculatorModel extends AbstractModel{
 
         try {
             switch (function) {
-                case ADD: case SUBTRACT: case MULTIPLY: case DIVIDE: case EQUALS: case SQRT:
-                case PERCENT:
+                case ADD: case SUBTRACT: case MULTIPLY: case DIVIDE: case EQUALS:
+
                     changeState(CalculatorState.OP_SELECTED);
                     operator = function;
                     break;
 
                 case CLEAR:
                     calcStart();
+                    break;
 
                 case SIGN:
                     negate();
                     break;
 
+                case SQRT:
+                    squareRoot();
+                    break;
 
+                case PERCENT:
+                    percent();
+                    break;
             }
         }
         catch (Exception e) {
@@ -184,29 +192,10 @@ public class CalculatorModel extends AbstractModel{
                 case DIVIDE:
                     result = lhs.divide(rhs);
                     break;
-                case SQRT:
-                    lhs.doubleValue();
-                    result = lhs.pow(1/2);
-                    break;
-                case SIGN:
-                    if (state.equals(CalculatorState.LHS)){
-                    result = lhs.negate();}
-                    else if (state.equals(CalculatorState.RHS)) {
-                    result = rhs.negate();
-                    }
-                    break;
+
                 case PERCENT:
-                    //Load lhs into percent.
-                    BigDecimal percent = null;
-                    percent = lhs;
-                    BigDecimal divisor = new BigDecimal(100);
 
-                    //Make rhs divided by 100.
-                    rhs.divide(divisor);
-
-                    //Multiply the rhs by the lhs to get the percent.
-                    percent.multiply(rhs);
-                    result = percent;
+                    percent();
                     break;
 
             }
@@ -246,6 +235,64 @@ public class CalculatorModel extends AbstractModel{
             screen.append(newText);
 
             Log.i(TAG, "Sign Change: " + newText);
+
+            firePropertyChange(CalculatorController.SCREEN_PROPERTY, oldText, newText);
+
+        }
+        catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void squareRoot() {
+
+        try {
+
+            String oldText = screen.toString();
+
+
+            BigDecimal number = new BigDecimal(oldText);
+
+            double squareRoot = number.floatValue();
+            double x = .5;
+
+            squareRoot = Math.pow(squareRoot, x);
+
+
+
+            String newText;
+            newText = String.valueOf(squareRoot);
+
+            screen.setLength(0);
+            screen.append(newText);
+
+            Log.i(TAG, "Square Root Change: " + newText);
+
+            firePropertyChange(CalculatorController.SCREEN_PROPERTY, oldText, newText);
+
+        }
+        catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void percent() {
+
+        try {
+
+            String oldText = lhs.toString();
+            String oldText2 = rhs.toString();
+
+            BigDecimal number = new BigDecimal(oldText);
+            BigDecimal number2 = new BigDecimal(oldText2);
+
+            number = number;
+
+
+
+            Log.i(TAG, "Percent Change: " + newText);
 
             firePropertyChange(CalculatorController.SCREEN_PROPERTY, oldText, newText);
 
