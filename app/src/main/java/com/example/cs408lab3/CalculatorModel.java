@@ -91,8 +91,7 @@ public class CalculatorModel extends AbstractModel{
                     calcStart();
 
                 case SIGN:
-                    changeStateSign(CalculatorState.OP_SELECTED);
-                    operator = function;
+                    negate();
                     break;
 
 
@@ -232,15 +231,28 @@ public class CalculatorModel extends AbstractModel{
 
     }
 
-    public void appendSign(BigDecimal r) {
+    public void negate() {
 
-        String oldText = screen.toString();
-        screen.append(r);
-        String newText = screen.toString();
+        try {
 
-        Log.i(TAG, "Screen Change: " + r);
+            String oldText = screen.toString();
 
-        firePropertyChange(CalculatorController.SCREEN_PROPERTY, oldText, newText);
+            BigDecimal number = new BigDecimal(oldText);
+            number = number.negate();
+
+            String newText = number.toString();
+
+            screen.setLength(0);
+            screen.append(newText);
+
+            Log.i(TAG, "Sign Change: " + newText);
+
+            firePropertyChange(CalculatorController.SCREEN_PROPERTY, oldText, newText);
+
+        }
+        catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
 
     }
 
