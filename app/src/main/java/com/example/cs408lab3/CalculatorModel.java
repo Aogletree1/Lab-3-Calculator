@@ -290,9 +290,9 @@ public class CalculatorModel extends AbstractModel{
 
             number = number;
 
+            String newText = "work in progress";
 
-
-            Log.i(TAG, "Percent Change: " + newText);
+            Log.i(TAG, "Percent Change: " + "");
 
             firePropertyChange(CalculatorController.SCREEN_PROPERTY, oldText, newText);
 
