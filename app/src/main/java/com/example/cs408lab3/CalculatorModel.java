@@ -278,8 +278,8 @@ public class CalculatorModel extends AbstractModel{
 
         try {
 
-            String oldText2 = lhs.toString();
-            String oldText = rhs.toString();
+            String oldText = lhs.toString();
+            String oldText2 = rhs.toString();
 
             int D = 100;
 
@@ -293,6 +293,7 @@ public class CalculatorModel extends AbstractModel{
 
             String newText = number.toString();
 
+            screen.setLength(0);
             screen.append(newText);
 
             Log.i(TAG, "Percent Change: " + "");
