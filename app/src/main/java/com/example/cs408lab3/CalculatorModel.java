@@ -193,10 +193,6 @@ public class CalculatorModel extends AbstractModel{
                     result = lhs.divide(rhs);
                     break;
 
-                case PERCENT:
-
-                    percent();
-                    break;
 
             }
 
@@ -282,15 +278,22 @@ public class CalculatorModel extends AbstractModel{
 
         try {
 
-            String oldText = lhs.toString();
-            String oldText2 = rhs.toString();
+            String oldText2 = lhs.toString();
+            String oldText = rhs.toString();
+
+            int D = 100;
 
             BigDecimal number = new BigDecimal(oldText);
             BigDecimal number2 = new BigDecimal(oldText2);
+            BigDecimal numberD = new BigDecimal(D);
 
-            number = number;
+            number2 = number2.divide(numberD);
 
-            String newText = "work in progress";
+            number = number.multiply(number2);
+
+            String newText = number.toString();
+
+            screen.append(newText);
 
             Log.i(TAG, "Percent Change: " + "");
 
